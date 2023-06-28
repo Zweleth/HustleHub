@@ -12,6 +12,7 @@ export default createStore({
     loggedClient: JSON.parse(sessionStorage.getItem("loggedClient")),
     is_logged: JSON.parse(sessionStorage.getItem("is_logged")),
     message: null,
+    logoLight: false,
     statuses: null,
     status: null,
     OTP: null,
@@ -72,6 +73,9 @@ export default createStore({
     is_logged(state) {
       return state.is_logged;
     },
+    logoLight(state) {
+      return state.logoLight;
+    },
     statuses(state) {
       return state.statuses;
     },
@@ -94,6 +98,9 @@ export default createStore({
     },
     setClient(state, client) {
       state.client = client;
+    },
+    setLogoLight(state, logoLight) {
+      state.logoLight = logoLight;
     },
     setLoggedClient(state, loggedClient) {
       state.loggedClient = loggedClient;

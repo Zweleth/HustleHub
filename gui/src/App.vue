@@ -1,19 +1,17 @@
 <template>
   <navbar/>
   <router-view/>
-  <myfooter/>
+  
   
 </template>
 <script>
 import navbar from '@/components/Navbar.vue'
-import mobile_nav from '@/components/MobileNav.vue'
-import myfooter from '@/components/Footer.vue'
+
+
 
 export default {
   components: {
     navbar,
-    mobile_nav,
-    myfooter
   }
 }
 </script>

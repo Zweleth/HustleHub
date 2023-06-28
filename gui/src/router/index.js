@@ -18,67 +18,11 @@ const routes = [
     }
   },
   {
-    path: '/sites',
-    name: 'sites',
+    path: '/sign-in',
+    name: 'sign-in',
+  
     component: function () {
-      return import('../views/SitesView.vue')
-    }
-  },
-  {
-    path: '/build',
-    name: 'build',
-    component: function () {
-      return import('../views/BuildView.vue')
-    }
-  },
-  {
-    path: '/signin',
-    name: 'signin',
-    component: function () {
-      return import('../views/SigninView.vue')
-    }
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: function () {
-      return import('../views/SignupView.vue')
-    }
-  },
-  {
-    path: '/build-info',
-    name: 'build-info',
-    component: function () {
-      return import('../views/BuildInfoView.vue')
-    }
-  }
-  ,
-  {
-    path: '/myaccount',
-    name: 'myaccount',
-    component: function () {
-      return import('../views/MyAccountView.vue')
-    }
-  },
-  {
-    path: '/mysites',
-    name: 'mysites',
-    component: function () {
-      return import('../views/MySitesView.vue')
-    }
-  },
-  {
-    path: '/account',
-    name: 'account',
-    component: function () {
-      return import('../views/ClientView.vue')
-    }
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: function () {
-      return import('../views/AdminView.vue')
+      return import(/* webpackChunkName: "about" */ '../views/SinginView.vue')
     }
   }
 ]
