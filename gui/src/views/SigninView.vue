@@ -43,11 +43,12 @@
           <label for="floatingPassword">Password</label>
         </div>
         <div class="buttons">
+        <a href="">Forgot password</a>
           <p>
             Don't have an account?
-            <router-link to="/signup">Signup</router-link>
+            <router-link to="/sign-up">Signup</router-link>
           </p>
-          <button type="submit" class="btnSign-in"> <div class="bg">Sign_up</div> Sign in</button>
+          <button type="submit" class="btnSign-in"> <div class="bg">Sign_in</div> Sign in</button>
         </div>
       </form>
     </div>

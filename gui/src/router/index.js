@@ -22,7 +22,15 @@ const routes = [
     name: 'sign-in',
   
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/SinginView.vue')
+      return import(/* webpackChunkName: "about" */ '../views/SigninView.vue')
+    }
+  },
+  {
+    path: '/sign-up',
+    name: 'sign-up',
+  
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/SignupView.vue')
     }
   }
 ]

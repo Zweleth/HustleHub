@@ -37,10 +37,10 @@
           <router-link to="/sites" v-if="this.is_logged?.status != true"
             >Services</router-link
           >
-          <router-link to="/signin" v-if="this.is_logged?.status != true"
+          <router-link to="/sign-in" v-if="this.is_logged?.status != true"
             >Sign in</router-link
           >
-          <router-link to="/signup" v-if="this.is_logged?.status != true"
+          <router-link to="/sign-up" v-if="this.is_logged?.status != true"
             >Sign up</router-link
           >
           <router-link to="/build" v-if="this.is_logged?.status != true"

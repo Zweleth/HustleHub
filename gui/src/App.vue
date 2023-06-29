@@ -1,17 +1,19 @@
 <template>
   <navbar/>
   <router-view/>
-  
+  <loader/>
   
 </template>
 <script>
 import navbar from '@/components/Navbar.vue'
+import loader from '@/components/SiteLoader.vue'
 
 
 
 export default {
   components: {
     navbar,
+    loader
   }
 }
 </script>
