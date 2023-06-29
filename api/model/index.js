@@ -21,7 +21,7 @@ export class Client {
       console.log(data);
       if (err) throw err;
       if (!data.length || data == null) {
-        res.status(401).json({
+        res.status(200).json({
           err: "Not registered",
         });
       } else {
@@ -46,7 +46,7 @@ export class Client {
               result: data[0],
             });
           } else {
-            res.status(401).json({
+            res.status(200).json({
               err: "You entered an invalid password or did not register.",
             });
           }
@@ -128,7 +128,7 @@ export class Client {
           res.status(200).json({ msg: "User successfully registered" });
         });
       } else {
-        res.status(401).json({
+        res.status(200).json({
           err: "Already have an account",
         });
       }
