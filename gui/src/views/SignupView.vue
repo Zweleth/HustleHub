@@ -88,7 +88,7 @@
         </div>
         <div class="buttons">
           <p>
-            Already an account?
+            Already have an account?
             <router-link to="/sign-in">Sign in</router-link>
           </p>
           <button type="submit" class="btnSign-in">
