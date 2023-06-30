@@ -88,22 +88,24 @@ export class Client {
 
   async checkAccount(req, res) {
     let detail = req.body;
+    let email_add = detail.email_add
     console.log(detail);
+    
     const qryStr = `
             SELECT client_id, first_name, last_name, cellphone, email_add, client_pass, is_admin
             FROM clients
-            WHERE email_add = '${detail.email_add}';
+            WHERE email_add = '${email_add}';
         `;
     db.query(qryStr, async (err, data) => {
       console.log(data);
       if (err) throw err;
-      if (data != null) {
+      if (!(!data.length || data == null)) {
         res.status(200).json({
           err: "Already registered, Sign in",
         });
       } else {
         res.status(200).json({
-          err: "Okay",
+          msg: "Okay",
         });
       }
     })

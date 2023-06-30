@@ -34,7 +34,7 @@ route.get('/client/:id', (req, res)=>{
     client.fetchClient(req, res);
 });
 
-route.post('/checkAccount', (req, res)=>{
+route.post('/checkAccount',bodyParser.json(), (req, res)=>{
     client.checkAccount(req, res);
 });
 
