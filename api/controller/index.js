@@ -34,7 +34,7 @@ route.get('/client/:id', (req, res)=>{
     client.fetchClient(req, res);
 });
 
-route.get('/checkAccount/:id', (req, res)=>{
+route.get('/checkAccount', (req, res)=>{
     client.checkAccount(req, res);
 });
 
