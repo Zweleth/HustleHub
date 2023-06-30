@@ -1,15 +1,45 @@
 <template lang="">
   <div class="page" id="signup">
-    <div class="page" id="v-screen"  v-if="showOTP == true">
+    <div class="page" id="v-screen" v-if="showOTP == true">
       <div class="verify">
         <h5>Verify email</h5>
         <h6>Enter the 5-digit OTP sent to your email</h6>
         <div class="inputs">
-          <input type="text" maxLength="1" class="inp1" @keyup="focus2()" v-model="inputs.inp1" />
-          <input type="text" maxLength="1" class="inp2" @keyup="focus3()" v-model="inputs.inp2" />
-          <input type="text" maxLength="1" class="inp3" @keyup="focus4()" v-model="inputs.inp3" />
-          <input type="text" maxLength="1" class="inp4" @keyup="focus5()" v-model="inputs.inp4" />
-          <input type="text" maxLength="1" class="inp5" @keyup="verify()" v-model="inputs.inp5" />
+          <input
+            type="text"
+            maxLength="1"
+            class="inp1"
+            @keyup="focus2()"
+            v-model="inputs.inp1"
+          />
+          <input
+            type="text"
+            maxLength="1"
+            class="inp2"
+            @keyup="focus3()"
+            v-model="inputs.inp2"
+          />
+          <input
+            type="text"
+            maxLength="1"
+            class="inp3"
+            @keyup="focus4()"
+            v-model="inputs.inp3"
+          />
+          <input
+            type="text"
+            maxLength="1"
+            class="inp4"
+            @keyup="focus5()"
+            v-model="inputs.inp4"
+          />
+          <input
+            type="text"
+            maxLength="1"
+            class="inp5"
+            @keyup="verify()"
+            v-model="inputs.inp5"
+          />
         </div>
         <h6 class="error" v-if="errOTP == true">Incorrect OTP, try again</h6>
         <a href="" @click.prevent="sendOTP(payload)">Resend OTP</a>
@@ -117,29 +147,32 @@ export default {
         inp2: null,
         inp3: null,
         inp4: null,
-        inp5: null
-      }
-      ,
+        inp5: null,
+      },
       inputOTP: null,
-      showOTP: false,
       errOTP: null,
       loading: false,
     };
   },
   computed: {
-    ...mapGetters(["OTP","showOTP"])
+    ...mapGetters(["OTP", "showOTP"]),
   },
   methods: {
-    ...mapMutations(["setLogoLight","setShowOTP"]),
-    ...mapActions(["sendOTP","signUp","checkAccount"]),
-    verify() {
-        this.inputOTP = `${this.inputs.inp1}${this.inputs.inp2}${this.inputs.inp3}${this.inputs.inp4}${this.inputs.inp5}`
-        if (this.inputOTP == this.OTP) {
-            this.signUp(this.payload)
-        }else {
-            this.errOTP = true;
-        }
-        
+    ...mapMutations(["setLogoLight", "setShowOTP"]),
+    ...mapActions(["sendOTP", "signUp", "checkAccount"]),
+    async verify() {
+      this.inputOTP = `${this.inputs.inp1}${this.inputs.inp2}${this.inputs.inp3}${this.inputs.inp4}${this.inputs.inp5}`;
+      if (this.inputOTP == this.OTP) {
+        time = new Date().getTime();
+        rNum = Math.floor(Math.random() * 99 + 1000);
+        frstChar = (this.payload.first_name[0]).toUpperCase();
+        frstSur = ((`${(this.payload.last_name[0]).toUpperCase()}${(this.payload.last_name[1]).toUpperCase()}`))
+        this.payload.client_id = `${frstChar}${frstSur}${rNum}${time}`
+        await this.signUp(this.payload);
+        this.$router.push({ name: "sign-in" });
+      } else {
+        this.errOTP = true;
+      }
     },
     focus2() {
       document.querySelector(".inp2").focus();
@@ -260,10 +293,10 @@ form button {
 }
 
 #v-screen {
-    position: absolute;
-    width: 100vw;
-    background-color: white;
-    z-index: 7;
+  position: absolute;
+  width: 100vw;
+  background-color: white;
+  z-index: 7;
 }
 
 .verify {
@@ -280,6 +313,6 @@ form button {
   border-radius: 0.3rem;
 }
 .error {
-    color: red;
+  color: red;
 }
 </style>

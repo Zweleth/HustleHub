@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import router from "@/router";
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 const URL = "https://hustlehub.onrender.com/";
@@ -190,13 +191,16 @@ export default createStore({
       context.commit("setSiteLoading", true)
       let res = await axios.post(`${URL}checkAccount`, payload);
       let { result, msg, err } = await res.data;
-      if (err) {
-        alert(err)
+      if (!(err == undefined)) {
+        context.commit("setSiteLoading", false)
+        this.$router.push({ name: "sign-in" })
       } else {
+
         context.dispatch("sendOTP", payload)
+        context.commit("setSiteLoading", false)
         context.commit("setShowOTP", true)
       }
-        context.commit("setSiteLoading", false)
+      
     }
     ,
 
