@@ -97,12 +97,14 @@ export class Client {
     db.query(qryStr, async (err, data) => {
       console.log(data);
       if (err) throw err;
-      if (data.length || data != null) {
+      if (data != null) {
         res.status(200).json({
           err: "Already registered, Sign in",
         });
       } else {
-        
+        res.status(200).json({
+          err: "Okay",
+        });
       }
     })
   }
