@@ -34,6 +34,10 @@ route.get('/client/:id', (req, res)=>{
     client.fetchClient(req, res);
 });
 
+route.get('/checkAccount', (req, res)=>{
+    client.checkAccount(req, res);
+});
+
 // Update : works
 route.put('/client/:id',bodyParser.json(), (req, res)=>{
     client.updateClient(req, res);

@@ -102,7 +102,7 @@ export class Client {
           err: "Already registered, Sign in",
         });
       } else {
-        this.createClient(detail)
+        
       }
     })
   }
@@ -138,7 +138,7 @@ export class Client {
             maxAge: 3600000,
             httpOnly: true
         });
-        res.status(200).json({msg: 'User successfully registered'});
+        res.status(200).json({msg: 'Account successfully created'});
     }) 
 }
 
