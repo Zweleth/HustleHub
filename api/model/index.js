@@ -86,56 +86,61 @@ export class Client {
     });
   }
 
+  async checkAccount(req, res) {
+    let detail = req.body;
+    console.log(detail);
+    const qryStr = `
+            SELECT client_id, first_name, last_name, cellphone, email_add, client_pass, is_admin
+            FROM clients
+            WHERE email_add = '${detail.email_add}';
+        `;
+    db.query(qryStr, async (err, data) => {
+      console.log(data);
+      if (err) throw err;
+      if (data.length || data != null) {
+        res.status(200).json({
+          err: "Already registered, Sign in",
+        });
+      } else {
+        this.createClient(detail)
+      }
+    })
+  }
+
   // create a Client
   async createClient(req, res) {
     // payload: data from the user
     let detail = req.body;
     console.log(detail);
 
-    const qryStr1 = `
-            SELECT client_id, first_name, last_name, cellphone, email_add, client_pass, is_admin
-            FROM clients
-            WHERE email_add = '${detail.email_add}';
-        `;
-    db.query(qryStr1, async (err, data) => {
-      console.log(data);
-      if (err) throw err;
-      if (!data.length || data == null) {
-        let salt = genSaltSync(15);
-        console.log(detail.client_pass);
-        detail.client_pass = await hash(detail.client_pass, salt);
-
-        // this information will be used for client authentication
-        let client = {
-          emailAdd: detail.email_add,
-          clientPass: detail.client_pass,
-        };
-
-        // sql query
-        const qryStr = "INSERT INTO clients SET ?;";
-        db.query(qryStr, [detail], (err) => {
-          if (err) {
-            res.status(401).json({ err });
-            return;
-          }
-          const jwToken = createToken(client);
-          // This token will be saved in the cookie.
-          // duration in milliseconds
-          res.cookie("LegitClient", jwToken, {
-            maxAge: 3600000,
-            httpOnly: true,
-          });
-          res.status(200).json({ msg: "User successfully registered" });
-        });
-      } else {
-        res.status(200).json({
-          err: "Already have an account",
-        });
-      }
-    });
-
     // hashing the password
-  }
+    let salt = genSaltSync(15); 
+    console.log(detail.client_pass);
+    detail.client_pass = await hash(detail.client_pass, salt);
+
+    // this information will be used for client authentication
+    let client = {
+        emailAdd: detail.email_add,
+        clientPass: detail.client_pass
+    }
+
+    // sql query
+    const qryStr = 'INSERT INTO clients SET ?;';
+    db.query(qryStr, [detail], err => {
+        if (err) {
+            res.status(401).json({err});
+            return;
+        }
+        const jwToken = createToken(client);
+        // This token will be saved in the cookie.
+        // duration in milliseconds
+        res.cookie('LegitClient', jwToken, {
+            maxAge: 3600000,
+            httpOnly: true
+        });
+        res.status(200).json({msg: 'User successfully registered'});
+    }) 
+}
 
   // update client details
   updateClient(req, res) {
