@@ -13,7 +13,7 @@
         </div>
         <h6 class="error" v-if="errOTP == true">Incorrect OTP, try again</h6>
         <a href="" @click.prevent="sendOTP(payload)">Resend OTP</a>
-        <button @click.prevent="verify()">
+        <button @click.prevent="verify(signUp(payload))">
           <div class="bg">Verify</div>
           Verify
         </button>
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="right" v-if="showOTP == false">
-      <form class="signup_form" @submit.prevent="sendOTP(payload); setShowOTP()">
+      <form class="signup_form" @submit.prevent="checkAccount(payload)">
         <div class="form-floating">
           <input
             type="text"
@@ -127,17 +127,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["OTP"])
+    ...mapGetters(["OTP","showOTP"])
   },
   methods: {
-    ...mapMutations(["setLogoLight"]),
-    ...mapActions(["sendOTP","signUp"]),
-    setShowOTP() {
-      this.showOTP = true;
-      if(this.showOTP == true) {
-        
-      }
-    },
+    ...mapMutations(["setLogoLight","setShowOTP"]),
+    ...mapActions(["sendOTP","signUp","checkAccount"]),
     verify() {
         this.inputOTP = `${this.inputs.inp1}${this.inputs.inp2}${this.inputs.inp3}${this.inputs.inp4}${this.inputs.inp5}`
         if (this.inputOTP == this.OTP) {

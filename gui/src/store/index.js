@@ -17,6 +17,7 @@ export default createStore({
     status: null,
     OTP: null,
     siteLoading: false,
+    showOTP: false,
     statusEmail: [
       {
         subject: "Development status update(Designing)",
@@ -96,6 +97,9 @@ export default createStore({
     siteLoading(state) {
       return state.siteLoading;
     },
+    showOTP(state) {
+      return state.showOTP;
+    }
   },
   mutations: {
     setSites(state, sites) {
@@ -134,6 +138,10 @@ export default createStore({
     setSiteLoading(state, siteLoading) {
       state.siteLoading = siteLoading;
     },
+    setShowOTP(state, showOTP) {
+      state.showOTP = showOTP;
+    }
+    
   },
   actions: {
     async signIn(context, payload) {
@@ -175,7 +183,23 @@ export default createStore({
       );
       sessionStorage.setItem("loggedClient", null);
     },
+
+
+    async checkAccount(context, payload) {
+      context.commit("setSiteLoading", true)
+      let res = await axios.get(`${URL}checkAccount`, payload);
+      let { result, msg, err } = await res.data;
+      if (err) {
+        alert(err)
+      } else {
+        context.dispatch("sendOTP", payload)
+        context.commit("setShowOTP", true)
+      }
+        context.commit("setSiteLoading", false)
+    },
+
     async signUp(context, payload) {
+      context.commit("setShowOTP", false)
       context.commit("setSiteLoading", true)
       let res = await axios.post(`${URL}register`, payload);
       let { result, msg, err } = await res.data;
