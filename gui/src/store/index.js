@@ -183,11 +183,12 @@ export default createStore({
       );
       sessionStorage.setItem("loggedClient", null);
     },
+    
 
 
     async checkAccount(context, payload) {
       context.commit("setSiteLoading", true)
-      let res = await axios.get(`${URL}checkAccount`, payload);
+      let res = await axios.post(`${URL}checkAccount`, payload);
       let { result, msg, err } = await res.data;
       if (err) {
         alert(err)
@@ -196,7 +197,8 @@ export default createStore({
         context.commit("setShowOTP", true)
       }
         context.commit("setSiteLoading", false)
-    },
+    }
+    ,
 
     async signUp(context, payload) {
       context.commit("setShowOTP", false)
