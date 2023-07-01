@@ -19,7 +19,7 @@ export default createStore({
     OTP: null,
     siteLoading: false,
     showOTP: false,
-    show_sites: false,
+    clientNav: JSON.parse(sessionStorage.getItem("clientNav")),
     statusEmail: [
       {
         subject: "Development status update(Designing)",
@@ -107,6 +107,15 @@ export default createStore({
     },
     show_sites(state) {
       return state.show_sites;
+    },
+    clientNav(state) {
+      return state.clientNav;
+    },
+    loggedClient(state) {
+      return state.loggedClient;
+    },
+    is_logged(state) {
+      return state.is_logged;
     }
   },
   mutations: {
@@ -151,6 +160,9 @@ export default createStore({
     },
     setShow_sites(state, show_sites) {
       state.show_sites = show_sites;
+    },
+    setClient_Nav(state, clientNav) {
+      state.clientNav = clientNav;
     }
     
   },
@@ -161,11 +173,19 @@ export default createStore({
 
       let { result, msg, err } = await res.data;
       context.commit("setSiteLoading", false)
+      
       if (result) {
         let value = {
           status: true,
-        };
+        }
+        let clientNav = {
+          show_sites : true,
+          show_single_site : false,
+          show_profile: false
+        }
+        ;
         sessionStorage.setItem("loggedClient", JSON.stringify(result));
+        sessionStorage.setItem("clientNav", JSON.stringify(clientNav));
         // console.log('statement reached 1');
         context.commit(
           "setLoggedClient",
@@ -197,6 +217,7 @@ export default createStore({
         JSON.parse(sessionStorage.getItem("is_logged"))
       );
       sessionStorage.setItem("loggedClient", null);
+      router.push({ path: '/sign-in' })
     },
     
 

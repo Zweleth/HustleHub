@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="mysites" v-if="is_logged && sites && show_sites == true">
+  <div class="mysites" v-if="is_logged && clientNav?.show_sites == true  && sites != null">
     <div class="site" v-for="site in sites" :key="site">
       <div class="icon">
         <i
@@ -33,13 +33,13 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["sites","loggedClient","is_logged","show_sites"]),
+    ...mapGetters(["sites","loggedClient","is_logged","clientNav"]),
   },
   methods: {
     ...mapActions(["fetchClientsSites"]),
   },
   created() {
-    this.fetchClientsSites(this.loggedClient.client_id)
+    this.fetchClientsSites(this.loggedClient?.client_id)
   },
 };
 </script>
@@ -47,14 +47,18 @@ export default {
 .mysites {
   width: 100vw;
   height: 80vh;
-  color: white;
+  padding: 0;
+  color: black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  column-gap: 1rem;
   padding: 2rem;
+  background-color: white;
 }
 
 .site {
+  margin: 0;
   width: 30rem;
   height: 12rem;
   background-color: white;
@@ -63,6 +67,7 @@ export default {
   align-items: center;
   position: relative;
   border: 0.15rem solid black;
+  color: black;
 }
 
 .icon {
@@ -101,16 +106,18 @@ export default {
   right: 1rem;
 }
 
+
+.info {
+  color: black;
+}
 .status {
   background-color: black;
   padding: 0.3rem 0.3rem;
-  border-radius: 0.4rem;
+  border-radius: 0 0 0.4rem 0.4rem ;
   position: absolute;
-  top: 0.5rem;
+  top: 0;
   right: 0.5rem;
   color: white;
 }
-.site h6 {
-  color: black;
-}
+
 </style>

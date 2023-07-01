@@ -1,5 +1,5 @@
 <template lang="">
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg" v-if="!is_logged">
     <div class="container-fluid">
       <a class="navbar-brand" href="#" v-if="logoLight == false"
         ><img
@@ -58,7 +58,7 @@
 import { mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(["logoLight"])
+    ...mapGetters(["logoLight","is_logged"])
   },
   
 };
