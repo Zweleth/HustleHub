@@ -18,6 +18,7 @@ export default createStore({
     status: null,
     OTP: null,
     siteLoading: false,
+    contentLoading: null,
     showOTP: false,
     clientNav: JSON.parse(sessionStorage.getItem("clientNav")),
     statusEmail: [
@@ -116,6 +117,9 @@ export default createStore({
     },
     is_logged(state) {
       return state.is_logged;
+    },
+    contentLoading(state) {
+      return state.contentLoading;
     }
   },
   mutations: {
@@ -163,6 +167,9 @@ export default createStore({
     },
     setClient_Nav(state, clientNav) {
       state.clientNav = clientNav;
+    },
+    setContentLoading(state, contentLoading) {
+      state.contentLoading = contentLoading;
     }
     
   },
@@ -316,10 +323,12 @@ export default createStore({
     },
 
     async fetchSites(context) {
+      context.commit("setContentLoading", true)
       try {
         let res = await fetch(URL + "sites");
         let data = await res.json();
         console.log(data);
+        context.commit("setContentLoading", null)
         context.commit(
           "setSites",
           data.results.length !== 0 ? data.results : null
@@ -327,6 +336,7 @@ export default createStore({
       } catch (e) {
         console.log(e);
       }
+      
     },
 
     async fetchClientsSites(context, id) {

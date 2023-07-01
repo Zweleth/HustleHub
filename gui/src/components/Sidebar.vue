@@ -20,8 +20,8 @@
         <h6>{{ loggedClient?.first_name }} {{ loggedClient?.last_name }}</h6>
       </div>
       <div class="buttons">
-        <button><img src="https://i.postimg.cc/tTxgGVBw/icons8-websites-64.png" alt=""> My sites</button>
-        <button><i class="fa-solid fa-user"></i> My profile</button>
+        <button @click.prevent="goToMySites()"><img src="https://i.postimg.cc/tTxgGVBw/icons8-websites-64.png" alt=""> My sites</button>
+        <button  @click.prevent="goToProf()"><i class="fa-solid fa-user"></i> My profile</button>
         <button><img src="https://i.postimg.cc/B6QCh4Nj/icons8-add-properties-60.png" alt=""> Create site</button>
       </div>
       <button class="btn_signOut"><i class="fa-solid fa-right-from-bracket" @click.prevent="signOut()"></i> Sign out</button>
@@ -35,7 +35,25 @@ export default {
     ...mapGetters(["loggedClient"]),
   },
   methods: {
-    ...mapActions(["signOut"])
+    ...mapActions(["signOut"]),
+    goToProf() {
+        let clientNav = {
+          show_sites : false,
+          show_single_site : false,
+          show_profile: true
+        }
+        sessionStorage.setItem("clientNav", JSON.stringify(clientNav))
+        window.location.reload();
+    },
+    goToMySites() {
+        let clientNav = {
+          show_sites : true,
+          show_single_site : false,
+          show_profile: false
+        }
+        sessionStorage.setItem("clientNav", JSON.stringify(clientNav))
+        window.location.reload();
+    }
   }
 };
 </script>

@@ -51,10 +51,12 @@ export default {
   color: black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 1rem;
   column-gap: 1rem;
   padding: 2rem;
   background-color: white;
+  
 }
 
 .site {
