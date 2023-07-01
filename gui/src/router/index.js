@@ -32,6 +32,14 @@ const routes = [
     component: function () {
       return import('../views/SignupView.vue')
     }
+  },
+  {
+    path: '/client',
+    name: 'client',
+  
+    component: function () {
+      return import('../views/ClientView.vue')
+    }
   }
 ]
 

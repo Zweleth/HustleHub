@@ -60,7 +60,7 @@
       </div>
     </div>
     <div class="right" v-if="showOTP == false">
-      <form class="signup_form" @submit.prevent="checkAccount(payload)">
+      <form class="signup_form" @submit.prevent="checkAccount(payload);">
         <div class="form-floating">
           <input
             type="text"
@@ -163,16 +163,17 @@ export default {
     async verify() {
       this.inputOTP = `${this.inputs.inp1}${this.inputs.inp2}${this.inputs.inp3}${this.inputs.inp4}${this.inputs.inp5}`;
       if (this.inputOTP == this.OTP) {
-        time = new Date().getTime();
-        rNum = Math.floor(Math.random() * 99 + 1000);
-        frstChar = (this.payload.first_name[0]).toUpperCase();
-        frstSur = ((`${(this.payload.last_name[0]).toUpperCase()}${(this.payload.last_name[1]).toUpperCase()}`))
+        let time = new Date().getTime();
+        let rNum = Math.floor(Math.random() * 99 + 1000);
+        let frstChar = (this.payload.first_name[0]).toUpperCase();
+        let frstSur = ((`${(this.payload.last_name[0]).toUpperCase()}${(this.payload.last_name[1]).toUpperCase()}`))
         this.payload.client_id = `${frstChar}${frstSur}${rNum}${time}`
-        await this.signUp(this.payload);
-        this.$router.push({ name: "sign-in" });
+        this.signUp(this.payload);
       } else {
         this.errOTP = true;
       }
+      
+
     },
     focus2() {
       document.querySelector(".inp2").focus();

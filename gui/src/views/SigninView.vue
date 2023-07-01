@@ -13,8 +13,7 @@
     <div class="right">
       <form
         @submit.prevent="
-          signIn();
-          test();
+          signIn(payload);
         "
       >
         <div class="user-icon">
@@ -49,13 +48,15 @@
             <router-link to="/sign-up">Signup</router-link>
           </p>
           <button type="submit" class="btnSign-in"> <div class="bg">Sign_in</div> Sign in</button>
+          
         </div>
+        <p class="error" v-if="message">{{message}}</p>
       </form>
     </div>
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -66,8 +67,13 @@ export default {
       loading: false,
     };
   },
+  computed:{
+    ...mapGetters(["message"])
+  }
+  ,
   methods: {
     ...mapMutations(["setLogoLight"]),
+    ...mapActions(["signIn"])
   },
   created() {
     this.setLogoLight(true);
@@ -152,5 +158,9 @@ form button {
   border: none;
   border: 0.1rem solid black;
   border-radius: 0.5rem;
+}
+
+.error {
+  color: red;
 }
 </style>

@@ -19,6 +19,7 @@ export default createStore({
     OTP: null,
     siteLoading: false,
     showOTP: false,
+    show_sites: false,
     statusEmail: [
       {
         subject: "Development status update(Designing)",
@@ -100,6 +101,12 @@ export default createStore({
     },
     showOTP(state) {
       return state.showOTP;
+    },
+    message(state) {
+      return state.message;
+    },
+    show_sites(state) {
+      return state.show_sites;
     }
   },
   mutations: {
@@ -141,15 +148,19 @@ export default createStore({
     },
     setShowOTP(state, showOTP) {
       state.showOTP = showOTP;
+    },
+    setShow_sites(state, show_sites) {
+      state.show_sites = show_sites;
     }
     
   },
   actions: {
     async signIn(context, payload) {
+      context.commit("setSiteLoading", true)
       let res = await axios.post(`${URL}login`, payload);
 
       let { result, msg, err } = await res.data;
-
+      context.commit("setSiteLoading", false)
       if (result) {
         let value = {
           status: true,
@@ -161,16 +172,19 @@ export default createStore({
           JSON.parse(sessionStorage.getItem("loggedClient"))
         );
         context.commit("setMessage", msg);
-
         sessionStorage.setItem("is_logged", JSON.stringify(value));
         context.commit(
           "setIs_Logged",
           JSON.parse(sessionStorage.getItem("is_logged"))
-        );
+        )
+        context.commit("setShow_sites", true)
+        context.commit("setLogoLight", false)
+        router.push({ path: '/client' })
+        ;
         // console.log(result.first_name);
       } else {
+        context.commit("setMessage", null)
         context.commit("setMessage", err);
-        console.log(err);
       }
     },
     async signOut(context, payload) {
@@ -193,9 +207,10 @@ export default createStore({
       let { result, msg, err } = await res.data;
       if (!(err == undefined)) {
         context.commit("setSiteLoading", false)
-        this.$router.push({ name: "sign-in" })
+        alert(err)
+        router.replace({ path: '/sign-in' })
+        
       } else {
-
         context.dispatch("sendOTP", payload)
         context.commit("setSiteLoading", false)
         context.commit("setShowOTP", true)
@@ -213,7 +228,7 @@ export default createStore({
       if (result) {
         context.commit("setClient", result);
         context.commit("setMessage", msg);
-        alert(msg)
+        router.replace({ path: '/sign-in' })
       } else {
         context.commit("setMessage", err);
         alert(err)
