@@ -19,6 +19,7 @@ export default createStore({
     siteLoading: false,
     contentLoading: null,
     showOTP: false,
+    S_S_I: JSON.parse(sessionStorage.getItem("S_S_I")),
     L_C_I: JSON.parse(sessionStorage.getItem("L_C_I")),
     statusEmail: [
       {
@@ -69,6 +70,9 @@ export default createStore({
     ],
   },
   getters: {
+    S_S_I(state) {
+      return state.S_S_I;
+    },
     L_C_I(state) {
       return state.L_C_I;
     },
@@ -319,6 +323,10 @@ export default createStore({
         let data = await res.json();
         console.log(data);
         context.commit(
+          "setSite",
+          data.results[0]
+        );
+        context.commit(
           "setSites",
           data.results.length !== 0 ? data.results : null
         );
@@ -353,7 +361,7 @@ export default createStore({
         console.log(data);
         context.commit(
           "setSite",
-          data.results.length !== 0 ? data.results : null
+          data.results[0]
         );
       } catch (e) {
         console.log(e);

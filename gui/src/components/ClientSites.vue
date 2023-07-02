@@ -24,24 +24,33 @@
         <h6 class="description">{{ site.site_description }}</h6>
         <h6 class="type">{{ site.site_type }}</h6>
         <h6 class="status">{{ site.status_name }}</h6>
-        <button @click.prevent="showMore(site.site_id)">View more</button>
+        <button type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasBottom"
+    aria-controls="offcanvasBottom" @click.prevent="showMore(site.site_id)">View more</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import router from "@/router";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["sites","loggedClient","is_logged","clientNav","L_C_I"]),
+    ...mapGetters(["sites","loggedClient","is_logged","clientNav","L_C_I","site","S_S_I"]),
   },
   methods: {
-    ...mapActions(["fetchClientsSites","fetchLoggedClient"]),
+    ...mapActions(["fetchClientsSites","fetchLoggedClient","fetchSite"]),
+    ...mapMutations(["setSite"])
+    ,
+    showMore(id) {
+      this.fetchSite(id);
+    }
   },
   created() {
-    
     this.fetchLoggedClient();
     this.fetchClientsSites();
+   
   },
 };
 </script>
