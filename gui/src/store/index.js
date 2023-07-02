@@ -178,11 +178,11 @@ export default createStore({
 
       if (result) {
         let client_id = {
-          l_c_k : result.client_id
+          l_c_k: result.client_id,
         };
         sessionStorage.setItem("L_C_I", JSON.stringify(client_id));
         // console.log('statement reached 1');
-        context.dispatch("fetchLoggedClient")
+        context.dispatch("fetchLoggedClient");
         context.commit("setMessage", msg);
         context.commit("setLogoLight", false);
         router.push({ path: "/mysites" });
@@ -193,15 +193,7 @@ export default createStore({
       }
     },
     async signOut(context, payload) {
-      let value = {
-        status: false,
-      };
-      sessionStorage.setItem("is_logged", JSON.stringify(value));
-      context.commit(
-        "setIs_Logged",
-        JSON.parse(sessionStorage.getItem("is_logged"))
-      );
-      sessionStorage.setItem("loggedClient", null);
+      
       router.push({ path: "/sign-in" });
     },
 
@@ -229,7 +221,7 @@ export default createStore({
         context.commit("setClient", result);
         context.commit("setMessage", msg);
         router.push({ path: "/sign-in" });
-        setTimeout(window.location.reload(), 5000)
+        setTimeout(window.location.reload(), 5000);
       } else {
         context.commit("setMessage", err);
         alert(err);
@@ -257,13 +249,10 @@ export default createStore({
     },
     async fetchLoggedClient(context) {
       try {
-        let res = await fetch(`${URL}client/${JSON.parse(sessionStorage.getItem("L_C_I")).l_c_k}`);
+        let res = await fetch(`${URL}client/${this.state.L_C_I?.l_c_k}`);
         let data = await res.json();
         console.log(data);
-        context.commit(
-          "setLoggedClient",
-          data.results.length !== 0 ? data.results : null
-        );
+        context.commit("setLoggedClient", data.results[0]);
       } catch (e) {
         console.log(e);
       }
