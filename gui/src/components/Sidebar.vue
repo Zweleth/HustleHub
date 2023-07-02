@@ -1,4 +1,12 @@
 <template lang="">
+  <button  v-if="L_C_I?.l_c_k != null"
+    class="btn1"
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasExample"
+    aria-controls="offcanvasExample"
+  ><i class="fa-solid fa-bars"></i>
+  </button>
   <div
     class="offcanvas offcanvas-start"
     tabindex="-1"
@@ -20,9 +28,9 @@
         <h6>{{ loggedClient?.first_name }} {{ loggedClient?.last_name }}</h6>
       </div>
       <div class="buttons">
-        <button @click.prevent="goToMySites()"><img src="https://i.postimg.cc/tTxgGVBw/icons8-websites-64.png" alt=""> My sites</button>
-        <button  @click.prevent="goToProf()"><i class="fa-solid fa-user"></i> My profile</button>
-        <button><img src="https://i.postimg.cc/B6QCh4Nj/icons8-add-properties-60.png" alt=""> Create site</button>
+        <button><router-link to="/mysites"><img src="https://i.postimg.cc/tTxgGVBw/icons8-websites-64.png" alt=""> My sites</router-link></button>
+        <button><router-link to="/myprofile"><i class="fa-solid fa-user"></i> My profile</router-link> </button>
+        <button><router-link to="/build"><img src="https://i.postimg.cc/B6QCh4Nj/icons8-add-properties-60.png" alt=""> Create site</router-link> </button>
       </div>
       <button class="btn_signOut"><i class="fa-solid fa-right-from-bracket" @click.prevent="signOut()"></i> Sign out</button>
     </div>
@@ -32,7 +40,7 @@
 import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["loggedClient"]),
+    ...mapGetters(["loggedClient","L_C_I"]),
   },
   methods: {
     ...mapActions(["signOut"]),
@@ -43,7 +51,7 @@ export default {
           show_profile: true
         }
         sessionStorage.setItem("clientNav", JSON.stringify(clientNav))
-        window.location.reload();
+        
     },
     goToMySites() {
         let clientNav = {
@@ -52,12 +60,25 @@ export default {
           show_profile: false
         }
         sessionStorage.setItem("clientNav", JSON.stringify(clientNav))
-        window.location.reload();
+       
     }
   }
 };
 </script>
 <style scoped>
+.btn1, .btn1:active, .btn1:hover, .btn1:focus  {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.5rem;
+  background: none;
+  color: black;
+  border: none;
+  z-index: 8;
+
+}
+.btn1 i{
+  font-size: x-large;
+}
 .offcanvas {
   color: black;
 }

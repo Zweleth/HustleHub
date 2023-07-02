@@ -34,11 +34,11 @@ const routes = [
     }
   },
   {
-    path: '/client',
-    name: 'client',
+    path: '/mysites',
+    name: 'mysites',
   
     component: function () {
-      return import('../views/ClientView.vue')
+      return import('../views/MySitesView.vue')
     }
   }
 ]

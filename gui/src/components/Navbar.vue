@@ -1,5 +1,5 @@
 <template lang="">
-  <nav class="navbar navbar-expand-lg" v-if="!is_logged">
+  <nav class="navbar navbar-expand-lg" v-if="L_C_I?.l_c_k == null">
     <div class="container-fluid">
       <a class="navbar-brand" href="#" v-if="logoLight == false"
         ><img
@@ -17,7 +17,7 @@
         />
         <h6 v-if="this.is_logged?.status != true">HustleHub</h6></a
       >
-      
+
       <button
         class="navbar-toggler"
         type="button"
@@ -55,12 +55,11 @@
   </nav>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["logoLight","is_logged"])
+    ...mapGetters(["logoLight", "is_logged","L_C_I"]),
   },
-  
 };
 </script>
 <style scoped>
@@ -93,7 +92,7 @@ nav {
   color: black;
 }
 
-.light h6{
+.light h6 {
   color: white;
 }
 .navbar-brand img {

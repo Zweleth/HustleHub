@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="mysites" v-if="is_logged && clientNav?.show_sites == true  && sites != null">
+  <div class="mysites" v-if="sites != null">
     <div class="site" v-for="site in sites" :key="site">
       <div class="icon">
         <i
@@ -36,9 +36,10 @@ export default {
     ...mapGetters(["sites","loggedClient","is_logged","clientNav"]),
   },
   methods: {
-    ...mapActions(["fetchClientsSites"]),
+    ...mapActions(["fetchClientsSites","fetchLoggedClient"]),
   },
   created() {
+    this.fetchLoggedClient();
     this.fetchClientsSites(this.loggedClient?.client_id)
   },
 };

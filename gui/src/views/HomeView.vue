@@ -54,9 +54,17 @@ export default {
   },
   methods: {
     ...mapMutations(["setLogoLight"]),
+    initSS() {
+      let client_id = {
+        l_c_k: null,
+      };
+      sessionStorage.setItem("L_C_I", JSON.stringify(client_id));
+    },
   },
   created() {
+    this.initSS();
     this.setLogoLight(false);
+    
   },
 };
 </script>

@@ -10,8 +10,7 @@ export default createStore({
     site: null,
     clients: null,
     client: null,
-    loggedClient: JSON.parse(sessionStorage.getItem("loggedClient")),
-    is_logged: JSON.parse(sessionStorage.getItem("is_logged")),
+    loggedClient: null,
     message: null,
     logoLight: false,
     statuses: null,
@@ -20,7 +19,7 @@ export default createStore({
     siteLoading: false,
     contentLoading: null,
     showOTP: false,
-    clientNav: JSON.parse(sessionStorage.getItem("clientNav")),
+    L_C_I: JSON.parse(sessionStorage.getItem("L_C_I")),
     statusEmail: [
       {
         subject: "Development status update(Designing)",
@@ -70,6 +69,9 @@ export default createStore({
     ],
   },
   getters: {
+    L_C_I(state) {
+      return state.L_C_I;
+    },
     sites(state) {
       return state.sites;
     },
@@ -81,9 +83,6 @@ export default createStore({
     },
     client(state) {
       return state.client;
-    },
-    is_logged(state) {
-      return state.is_logged;
     },
     logoLight(state) {
       return state.logoLight;
@@ -120,7 +119,7 @@ export default createStore({
     },
     contentLoading(state) {
       return state.contentLoading;
-    }
+    },
   },
   mutations: {
     setSites(state, sites) {
@@ -140,9 +139,6 @@ export default createStore({
     },
     setLoggedClient(state, loggedClient) {
       state.loggedClient = loggedClient;
-    },
-    setIs_Logged(state, is_logged) {
-      state.is_logged = is_logged;
     },
     setMessage(state, message) {
       state.message = message;
@@ -170,47 +166,29 @@ export default createStore({
     },
     setContentLoading(state, contentLoading) {
       state.contentLoading = contentLoading;
-    }
-    
+    },
   },
   actions: {
     async signIn(context, payload) {
-      context.commit("setSiteLoading", true)
+      context.commit("setSiteLoading", true);
       let res = await axios.post(`${URL}login`, payload);
 
       let { result, msg, err } = await res.data;
-      context.commit("setSiteLoading", false)
-      
+      context.commit("setSiteLoading", false);
+
       if (result) {
-        let value = {
-          status: true,
-        }
-        let clientNav = {
-          show_sites : true,
-          show_single_site : false,
-          show_profile: false
-        }
-        ;
-        sessionStorage.setItem("loggedClient", JSON.stringify(result));
-        sessionStorage.setItem("clientNav", JSON.stringify(clientNav));
+        let client_id = {
+          l_c_k : result.client_id
+        };
+        sessionStorage.setItem("L_C_I", JSON.stringify(client_id));
         // console.log('statement reached 1');
-        context.commit(
-          "setLoggedClient",
-          JSON.parse(sessionStorage.getItem("loggedClient"))
-        );
+        context.dispatch("fetchLoggedClient")
         context.commit("setMessage", msg);
-        sessionStorage.setItem("is_logged", JSON.stringify(value));
-        context.commit(
-          "setIs_Logged",
-          JSON.parse(sessionStorage.getItem("is_logged"))
-        )
-        context.commit("setShow_sites", true)
-        context.commit("setLogoLight", false)
-        router.push({ path: '/client' })
-        ;
+        context.commit("setLogoLight", false);
+        router.push({ path: "/mysites" });
         // console.log(result.first_name);
       } else {
-        context.commit("setMessage", null)
+        context.commit("setMessage", null);
         context.commit("setMessage", err);
       }
     },
@@ -224,42 +202,36 @@ export default createStore({
         JSON.parse(sessionStorage.getItem("is_logged"))
       );
       sessionStorage.setItem("loggedClient", null);
-      router.push({ path: '/sign-in' })
+      router.push({ path: "/sign-in" });
     },
-    
-
 
     async checkAccount(context, payload) {
-      context.commit("setSiteLoading", true)
+      context.commit("setSiteLoading", true);
       let res = await axios.post(`${URL}checkAccount`, payload);
       let { result, msg, err } = await res.data;
       if (!(err == undefined)) {
-        context.commit("setSiteLoading", false)
-        alert(err)
-        router.replace({ path: '/sign-in' })
-        
+        context.commit("setSiteLoading", false);
+        alert(err);
+        router.replace({ path: "/sign-in" });
       } else {
-        context.dispatch("sendOTP", payload)
-        context.commit("setSiteLoading", false)
-        context.commit("setShowOTP", true)
+        context.dispatch("sendOTP", payload);
+        context.commit("setSiteLoading", false);
+        context.commit("setShowOTP", true);
       }
-      
-    }
-    ,
-
+    },
     async signUp(context, payload) {
-      context.commit("setShowOTP", false)
-      context.commit("setSiteLoading", true)
+      context.commit("setShowOTP", false);
+      context.commit("setSiteLoading", true);
       let res = await axios.post(`${URL}register`, payload);
       let { result, msg, err } = await res.data;
-      context.commit("setSiteLoading", false)
+      context.commit("setSiteLoading", false);
       if (result) {
         context.commit("setClient", result);
         context.commit("setMessage", msg);
-        router.replace({ path: '/sign-in' })
+        router.replace({ path: "/sign-in" });
       } else {
         context.commit("setMessage", err);
-        alert(err)
+        alert(err);
       }
     },
 
@@ -280,6 +252,19 @@ export default createStore({
         context.commit("setMessage", msg);
       } else {
         context.commit("setMessage", err);
+      }
+    },
+    async fetchLoggedClient(context) {
+      try {
+        let res = await fetch(`${URL}client/${JSON.parse(sessionStorage.getItem("L_C_I")).l_c_k}`);
+        let data = await res.json();
+        console.log(data);
+        context.commit(
+          "setLoggedClient",
+          data.results.length !== 0 ? data.results : null
+        );
+      } catch (e) {
+        console.log(e);
       }
     },
 
@@ -323,12 +308,12 @@ export default createStore({
     },
 
     async fetchSites(context) {
-      context.commit("setContentLoading", true)
+      context.commit("setContentLoading", true);
       try {
         let res = await fetch(URL + "sites");
         let data = await res.json();
         console.log(data);
-        context.commit("setContentLoading", null)
+        context.commit("setContentLoading", null);
         context.commit(
           "setSites",
           data.results.length !== 0 ? data.results : null
@@ -336,7 +321,6 @@ export default createStore({
       } catch (e) {
         console.log(e);
       }
-      
     },
 
     async fetchClientsSites(context, id) {
