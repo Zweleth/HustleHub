@@ -228,7 +228,8 @@ export default createStore({
       if (result) {
         context.commit("setClient", result);
         context.commit("setMessage", msg);
-        router.replace({ path: "/sign-in" });
+        router.push({ path: "/sign-in" });
+        setTimeout(window.location.reload(), 5000)
       } else {
         context.commit("setMessage", err);
         alert(err);
@@ -323,9 +324,9 @@ export default createStore({
       }
     },
 
-    async fetchClientsSites(context, id) {
+    async fetchClientsSites(context) {
       try {
-        let res = await fetch(`${URL}sites/${id}`);
+        let res = await fetch(`${URL}sites/${this.state.L_C_I?.l_c_k}`);
         let data = await res.json();
         console.log(data);
         context.commit(

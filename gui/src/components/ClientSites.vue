@@ -33,14 +33,15 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["sites","loggedClient","is_logged","clientNav"]),
+    ...mapGetters(["sites","loggedClient","is_logged","clientNav","L_C_I"]),
   },
   methods: {
     ...mapActions(["fetchClientsSites","fetchLoggedClient"]),
   },
   created() {
+    
     this.fetchLoggedClient();
-    this.fetchClientsSites(this.loggedClient?.client_id)
+    this.fetchClientsSites();
   },
 };
 </script>

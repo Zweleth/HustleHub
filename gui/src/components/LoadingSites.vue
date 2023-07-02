@@ -1,6 +1,6 @@
 <template lang="">
   <div
-    class="mysites" v-if="sites == null && clientNav?.show_sites == true"
+    class="mysites" v-if="sites == null"
    
   >
     <div class="site" v-for="n in 10"><div class="shine"></div></div>
