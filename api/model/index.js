@@ -74,7 +74,7 @@ export class Client {
   fetchClient(req, res) {
     const qryStr = `
         SELECT client_id, first_name, last_name, cellphone, email_add, client_pass, is_admin
-        FROM client
+        FROM clients
         WHERE client_id = ?;
         `;
 
@@ -153,7 +153,7 @@ export class Client {
       data.client_pass = hashSync(data.client_pass, 15);
     }
     const qryStr = `
-            UPDATE client
+            UPDATE clients
             SET ?
             WHERE client_id = ?;`;
 
